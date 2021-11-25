@@ -20,3 +20,36 @@ class BookLibrary {
       this.booksCollection.appendChild(div);
     });
   }
+
+  addBook(title, author) {
+    for (let i = 0; i < this.bookList.length; i += 1) {
+      if (this.bookList[i].title === title) {
+        alert('this book is already exist');
+        this.removeBook(title, author);
+      }
+    }
+    this.bookList.push({ title, author });
+    localStorage.setItem('books', JSON.stringify(this.bookList));
+    const div = document.createElement('div');
+    div.innerHTML = `
+    <h2>${title}</h2>
+    <p>${author}</p>
+    `;
+
+    const removeBtn = document.createElement('button');
+    removeBtn.innerText = 'Remove';
+    removeBtn.addEventListener('click', () => {
+      this.removeBook(div, title, author);
+    });
+
+    div.appendChild(removeBtn);
+
+    this.booksCollection.appendChild(div);
+  }
+
+  removeBook(element, title, author) {
+    element.remove();
+    this.bookList = this.bookList.filter((book) => book.title !== title || book.author !== author);
+    localStorage.setItem('books', JSON.stringify(this.bookList));
+  }
+}
