@@ -25,7 +25,7 @@ class BookLibrary {
     for (let i = 0; i < this.bookList.length; i += 1) {
       if (this.bookList[i].title === title) {
         alert('this book is already exist');
-        this.removeBook(title, author);
+        this.removeBook(element,title, author);
       }
     }
     this.bookList.push({ title, author });
