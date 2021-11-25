@@ -1,70 +1,22 @@
-let bookList = JSON.parse(localStorage.getItem('books')) || [];
+class BookLibrary {
+  constructor() {
+    this.booksCollection = document.querySelector('.books');
+    this.bookList = JSON.parse(localStorage.getItem('books')) || [];
+    this.bookList.forEach((book) => {
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <h2>${book.title}</h2>
+        <p>${book.author}</p>
+      `;
 
-function removeBook(element, title, author) {
-  element.remove();
-  bookList = bookList.filter((book) => book.title !== title || book.author !== author);
-  localStorage.setItem('books', JSON.stringify(bookList));
-}
+      const removeBtn = document.createElement('button');
+      removeBtn.innerText = 'Remove';
+      removeBtn.addEventListener('click', () => {
+        this.removeBook(div, book.title, book.author);
+      });
 
-function addBook(title, author) {
-  for (let i = 0; i < bookList.length; i += 1) {
-    if (bookList[i].title === title) {
-      alert('Book is already exist');
-      removeBook(title, author);
-    }
+      div.appendChild(removeBtn);
+
+      this.booksCollection.appendChild(div);
+    });
   }
-
-  bookList.push({ title, author });
-
-  localStorage.setItem('books', JSON.stringify(bookList));
-}
-
-const booksCollection = document.querySelector('.books');
-
-bookList.forEach((book) => {
-  const div = document.createElement('div');
-  div.innerHTML = `
-    <h2>${book.title}</h2>
-    <p>${book.author}</p>
-  `;
-
-  const removeBtn = document.createElement('button');
-  removeBtn.innerText = 'Remove';
-  removeBtn.addEventListener('click', () => {
-    removeBook(div, book.title, book.author);
-  });
-
-  div.appendChild(removeBtn);
-
-  booksCollection.appendChild(div);
-});
-
-const addBtn = document.querySelector('.add-book-btn');
-
-addBtn.addEventListener('click', () => {
-  // add book
-
-  const title = document.getElementById('title').value;
-  const author = document.getElementById('author').value;
-  if (!title || !author) {
-    return;
-  }
-
-  addBook(title, author);
-
-  const div = document.createElement('div');
-  div.innerHTML = `
-    <h2>${title}</h2>
-    <p>${author}</p>
-  `;
-
-  const removeBtn = document.createElement('button');
-  removeBtn.innerText = 'Remove';
-  removeBtn.addEventListener('click', () => {
-    removeBook(div, title, author);
-  });
-
-  div.appendChild(removeBtn);
-
-  booksCollection.appendChild(div);
-});
