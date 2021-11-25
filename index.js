@@ -53,3 +53,16 @@ class BookLibrary {
     localStorage.setItem('books', JSON.stringify(this.bookList));
   }
 }
+
+const bookLibrary = new BookLibrary();
+
+const addBtn = document.querySelector('.add-book-btn');
+
+addBtn.addEventListener('click', () => {
+  const title = document.getElementById('title').value;
+  const author = document.getElementById('author').value;
+  if (!title || !author) {
+    return;
+  }
+  bookLibrary.addBook(title, author);
+});
