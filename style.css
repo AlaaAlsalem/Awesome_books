@@ -63,3 +63,17 @@ h1 {
   margin-left: 60%;
   margin-top: 10px;
 }
+
+@media only screen and (min-width: 600px) {
+  .sec-width {
+    width: 70%;
+  }
+
+  .books {
+    width: 70%;
+  }
+
+  #add-button {
+    margin-left: 55%;
+  }
+}
