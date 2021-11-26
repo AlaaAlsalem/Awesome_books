@@ -47,11 +47,14 @@ class Display {
     const div = document.createElement('div');
     div.classList.add('book');
     div.innerHTML = `
-      <h5>${book.title}</h5>  
-      <p>${book.author}</p>  
-      <button class="remove">remove</button>
-      <hr>
-    `;
+        <div class="collection">
+        <p class="book-item"><small>"${book.title}"</small> by <strong>${book.author}</strong></p>  
+      
+        </div>
+        <div class="empty"></div>        
+          <button class="remove">remove</button>
+        <hr>
+      `;
     parentDiv.appendChild(div);
   }
 
@@ -87,15 +90,21 @@ addButton.addEventListener('click', (e) => {
     Display.showAlert('That book already exists', 'danger');
     document.querySelector('#title').value = '';
     document.querySelector('#author').value = '';
+  } else if (!title || !author) {
+    Display.showAlert('Title and Author are required', 'danger');
   } else {
     const book = new Book(title, author);
     Display.addBookToDisplay(book);
     Storage.addBook(book);
     document.querySelector('#title').value = '';
     document.querySelector('#author').value = '';
+    Display.showAlert('Book added to list succefully', 'success');
   }
 });
 document.querySelector('.books').addEventListener('click', (e) => {
   Display.removeBookFromDisplay(e.target);
-  Storage.removeBook(e.target.previousElementSibling.textContent);
+  const myArr = e.target.previousElementSibling.previousElementSibling.textContent
+    .trim()
+    .split(' ');
+  Storage.removeBook(myArr[myArr.length - 1]);
 });
